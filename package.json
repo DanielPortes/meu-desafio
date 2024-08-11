@@ -16,6 +16,7 @@
     "chart.js": "^4.4.3",
     "highcharts-vue": "^2.0.1",
     "pinia": "^2.2.1",
+    "vite-plugin-vuetify": "^2.0.4",
     "vue": "^3.4.29",
     "vue-router": "^4.4.3",
     "vuetify": "^3.6.14"
