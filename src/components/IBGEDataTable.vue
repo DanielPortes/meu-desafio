@@ -38,6 +38,7 @@
 <script>
 import {onMounted, ref, watch} from 'vue'
 import axios from 'axios'
+import Chart from 'chart.js/auto'
 
 export default {
   setup() {
