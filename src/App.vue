@@ -1,47 +1,100 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
+  <v-app>
+    <v-app-bar app color="primary" dark>
+      <v-app-bar-title class="title-wrapper">
+        <v-btn to="/" class="title-btn" text>Meu Desafio - TECSCI</v-btn>
+      </v-app-bar-title>
+      <v-spacer></v-spacer>
+      <nav>
+        <v-btn to="/" text aria-label="Ir para a página inicial">Inicio</v-btn>
+        <v-btn to="/api" text aria-label="Ir para a página da API">API</v-btn>
+        <v-btn to="/about" text aria-label="Ir para a página Sobre">Sobre</v-btn>
+      </nav>
+      <v-btn icon @click="toggleTheme" :aria-label="isDarkTheme ? 'Ativar modo claro' : 'Ativar modo escuro'">
+        <v-icon>{{ isDarkTheme ? 'mdi-weather-sunny' : 'mdi-weather-night' }}</v-icon>
+      </v-btn>
+    </v-app-bar>
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
+    <v-main>
+      <v-container fluid>
+        <router-view></router-view>
+      </v-container>
+    </v-main>
 
-  <main>
-    <TheWelcome />
-  </main>
+    <v-footer app color="primary-darken-1">
+      <span>&copy; {{ new Date().getFullYear() }} - Meu Desafio - TECSCI - Por Daniel Fagundes</span>
+    </v-footer>
+  </v-app>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
+<script>
+import { ref, onMounted } from 'vue'
+import { useTheme } from 'vuetify'
+
+export default {
+  name: 'App',
+  setup() {
+    const theme = useTheme()
+    const isDarkTheme = ref(theme.global.current.value.dark)
+
+    const toggleTheme = () => {
+      theme.global.name.value = isDarkTheme.value ? 'light' : 'dark'
+      isDarkTheme.value = !isDarkTheme.value
+    }
+
+    onMounted(() => {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+      isDarkTheme.value = prefersDark
+      theme.global.name.value = prefersDark ? 'dark' : 'light'
+    })
+
+    return { isDarkTheme, toggleTheme }
+  }
+}
+</script>
+
+<style>
+
+a {
+  color: #1976D2;
+  text-decoration: underline;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+.theme--dark a {
+  color: #64B5F6;
 }
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
+.title-wrapper {
+  padding: 0 !important;
+}
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
+.title-btn {
+  font-size      : 1.0rem !important;
+  font-weight    : 700 !important;
+  letter-spacing : 0.05em !important;
+  text-transform : uppercase !important;
+  transition     : all 0.3s ease !important;
+}
 
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+.title-btn:hover {
+  transform: scale(1.05);
+}
+
+a:focus, button:focus, input:focus, select:focus, textarea:focus {
+  outline: 2px solid #1976D2;
+  outline-offset: 2px;
+}
+
+.theme--dark a:focus, .theme--dark button:focus, .theme--dark input:focus,
+.theme--dark select:focus, .theme--dark textarea:focus {
+  outline-color: #64B5F6;
+}
+
+body {
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.theme--dark body {
+  color: rgba(255, 255, 255, 0.87);
 }
 </style>
