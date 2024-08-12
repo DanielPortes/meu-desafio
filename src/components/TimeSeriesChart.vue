@@ -103,7 +103,7 @@ export default {
     onMounted(async () => {
       try {
         console.log('Iniciando carregamento do arquivo JSON');
-        const response = await fetch(`${import.meta.env.VITE_BASE_URL}Grafico-JSON.json`);
+        const response = await fetch(`/meu-desafio/Grafico-JSON.json`);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
